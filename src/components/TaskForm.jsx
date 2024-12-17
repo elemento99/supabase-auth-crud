@@ -10,14 +10,12 @@ const TaskForm = () => {
     const handleSubmit = async e => {
         e.preventDefault()
         try {
-
             // Obtén la sesión actual
             const { data: session, error: sessionError } = await supabase.auth.getSession();
             if (sessionError || !session?.session) {
                 console.error('No se pudo obtener la sesión o el usuario no está autenticado:', sessionError);
                 return;
             }
-
             const userId = session.session.user.id; // Obtén el ID del usuario
             console.log('Usuario autenticado:', userId);
 

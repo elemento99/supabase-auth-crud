@@ -30,7 +30,23 @@ const Home = () => {
 
   return (
     <div>
-      <button onClick={() => supabase.auth.signOut} > Logout</button>
+      <button
+        onClick={async () => {
+          try {
+            const { error } = await supabase.auth.signOut()
+            if (error) {
+              console.error("Error al cerrar sesión:", error)
+            } else {
+              navigate("/")
+            }
+          } catch (err) {
+            console.error("Error inesperado:", err)
+          }
+        }}
+      >
+        Logout
+      </button>
+
       <TaskForm />
       <TaskLists />
     </div>
