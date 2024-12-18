@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import supabase from '../supabase-client'
 import { useNavigate } from 'react-router-dom';
 
@@ -8,6 +8,7 @@ import TaskLists from '../components/TaskLists';
 
 const Home = () => {
   const navigate = useNavigate()
+  const [showTaskDone,setShowTaskDone]=useState(false)
 
 
   useEffect(() => {
@@ -30,25 +31,14 @@ const Home = () => {
 
   return (
     <div>
-      <button
-        onClick={async () => {
-          try {
-            const { error } = await supabase.auth.signOut()
-            if (error) {
-              console.error("Error al cerrar sesión:", error)
-            } else {
-              navigate("/")
-            }
-          } catch (err) {
-            console.error("Error inesperado:", err)
-          }
-        }}
-      >
-        Logout
-      </button>
-
       <TaskForm />
-      <TaskLists />
+      <header>
+        <span>Task pending</span>
+        <button onClick={()=>setShowTaskDone(!showTaskDone)}>
+        {showTaskDone? "Show undone Tasks" : "Show done tasks"}
+        </button>
+      </header>
+      <TaskLists  done={showTaskDone} />
     </div>
   )
 }

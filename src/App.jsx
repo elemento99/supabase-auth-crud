@@ -4,6 +4,7 @@ import supabase from './supabase-client'
 import './App.css'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import { TaskContextProvider } from './context/TaskContext'
+import Navbar from './components/Navbar'
 
 
 import Login from './components/login'
@@ -20,6 +21,7 @@ function App() {
     return (
         <div className="App">       
          <TaskContextProvider>
+            <Navbar/>
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />

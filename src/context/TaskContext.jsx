@@ -72,32 +72,63 @@ export const TaskContextProvider = ({ children }) => {
         } catch (error) {
             console.error(error)
         }
-        finally{setAdding(false)}
+        finally { setAdding(false) }
     }
 
     const deleteTask = async (id) => {
         try {
             console.log("Eliminando tarea con id:", id);
+            const userId = await user(); 
+            if (!userId) {
+                console.error('Usuario no autenticado.');
+                return;
+            }
     
             const { error } = await supabase
                 .from('tasks')
                 .delete()
-                .eq('id', id);
+                .eq('id', id)
+                .eq('userid', userId); // Verifica que la tarea pertenezca al usuario logueado.
     
             if (error) {
                 console.error('Error al eliminar la tarea:', error);
                 return;
             }
     
-            
-            getTasks();
+            // Actualiza el estado de las tareas localmente si la eliminación fue exitosa.
+            setTasks(tasks.filter(task => task.id !== id));
         } catch (error) {
-            console.error(error);
+            console.error('Error al eliminar la tarea:', error);
         }
     };
     
 
-    return <TaskContext.Provider value={{ tasks, getTasks, createTask, adding, loading, deleteTask }}>
+    const updateTask = async (id, updateFields) => {try {
+        console.log("actualiza la tarea con:", id);
+        const userId = await user(); 
+        if (!userId) {
+            console.error('Usuario no autenticado.');
+            return;
+        }
+        const { error , data } = await supabase
+            .from('tasks')
+            .update(updateFields)
+            .eq('id', id)
+            .eq('userid', userId); 
+        if (error) {
+            console.error('Error al actualizar la tarea:', error);
+            return;
+        }
+
+        setTasks(tasks.filter(task=>task.id!==id))
+
+    } catch (error) {
+        console.error('error al actualizar la tarea:', error);
+    }
+        
+    }
+
+    return <TaskContext.Provider value={{ tasks, getTasks, createTask, adding, loading, deleteTask, updateTask }}>
         {children}
     </TaskContext.Provider>
 }
