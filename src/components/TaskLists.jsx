@@ -1,26 +1,48 @@
 import React, { useEffect } from 'react'
 import { useTasks } from '../context/TaskContext'
-
+import TaskCard from './TaskCard'
 
 
 const TaskLists = () => {
 
-    const {tasks, getTasks}=useTasks()
-    console.log("tasks desde el task list", tasks)
+  const { tasks, getTasks, loading } = useTasks()
+  
 
-useEffect(()=>{
+  useEffect(() => {
+    
     getTasks(false)
-},[])
+  }, [])
 
-  return (
-    <div>
-      {
-        tasks.map(tasks=><div key={tasks.id}> 
-        {tasks.name}</div>
-        )
-      }
-    </div>
-  )
+  function renderTasks() {
+    if (loading) {
+      return <p>
+        Loading...
+      </p>
+    }
+    else if (tasks.length === 0) {
+      return <p>No tasks found</p>
+    }
+    else {
+      return (
+        <div >
+          {
+            tasks.map(task => (
+              <TaskCard task={task} />
+
+            ))
+          }
+        </div>
+      )
+
+
+    }
+  }
+
+  return <div>
+    {renderTasks()}
+  </div>
 }
+
+
 
 export default TaskLists
