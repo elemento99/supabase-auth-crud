@@ -2,13 +2,13 @@
   "name": "supabase-auth-crud",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://elemento99.github.io/supabase-auth-crud /",
+  "homepage": "https://elemento99.github.io/supabase-auth-crud/",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "predeploy" : "npm run build",
-    "deploy" : "gh-pages -d dist",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -34,5 +34,4 @@
     "globals": "^15.12.0",
     "vite": "^6.0.1"
   }
-  
 }

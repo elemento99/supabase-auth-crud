@@ -8,5 +8,5 @@ export default defineConfig(({ mode }) => ({
   build: {
     sourcemap: mode === 'development', // Activa source maps solo en desarrollo
   },
-  base: '/supabase-auth-crud/',
+  base: '/supabase-auth-crud',
 }));
